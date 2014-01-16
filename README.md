@@ -41,7 +41,7 @@ For example a link that you want to localize:
 <a href="#" data-i18n="nav.ask">Ask us anything</a>
 ```
 
-You can define 
+You can define those translations through js objects or external json files
 
 Usage
 -----
@@ -59,7 +59,29 @@ var default_options = {
 		translations: null, // i18next resGetPath attribute (string) to load external json files or a js object containing all translations
 		ns: 'theme' // i18next default namespace 
 };
+```
+
+```js
 ti18n.init( options [, cb ] );
+```
+
+```js
+var resources = {
+  et: {
+    theme: {
+      nav: {
+        ask: 'Küsi meilt ükskõik mida'
+      }
+    }
+  },
+  en: {
+    theme: {
+      nav: {
+        ask: 'Ask us anything'
+      }
+    }
+  }
+};
 
 $(function() {
             
@@ -69,25 +91,57 @@ $(function() {
       'en': 'ENG'
     },
     defaultLang: 'et',
-    translations: {
-      et: {
-        theme: {
-          nav: {
-            ask: 'Küsi meilt ükskõik mida'
-          }
-        }
-      },
-      en: {
-        theme: {
-          nav: {
-            ask: 'Ask us anything'
-          }
-        }
-      }
-    }
+    translations: resources
+  }, function( activeLang ) {
+    console.log( 'This is the automatically active language key:', activeLang );
   });
             
 });
+```
+
+* Other methods: *
+
+* ti18n.changeLang( langKey ) - changes the active language, updates language selector and texts on page
+* ti18n.createLanguageSelect() - appends a language selector to body
+* ti18n.setLangs({}) - change the available languages, options.langs on runtime
+* ti18n.getLangs()
+* ti18n.lng() - get the current active language key
+
+You might also need some basic language selector CSS for starters, use this LESS code:
+
+```LESS
+.language-select {
+  position: fixed;
+  top: 7px;
+  left: 54px;
+  background-color: rgba(255, 255, 255, 0.57);
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      float: left;
+
+      &.active a {
+        color: #FF6124;
+      }
+
+      a {
+        padding: 7px 8px;
+        display: block;
+        text-decoration: none;
+        color: #3F3F3F;
+        font-weight: bold;
+        &:hover {
+          color: #FF6124;
+          background: rgba(255, 255, 255, 0.7);
+        }
+      }
+    }
+  }
+}
 ```
 
 License
