@@ -86,6 +86,7 @@ var resources = {
 $(function() {
             
   ti18n.init({
+    selector: '.post', // element selector to scan for regex translated content
     langs: {
       'et': 'EST',
       'en': 'ENG'
